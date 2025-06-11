@@ -307,11 +307,11 @@
             <br>
             <p><strong>Cómo ingresar problemas:</strong></p>
             <ul>
-                <li><strong>Suma/Resta:</strong> `x + 2`, `3x - 5`</li>
+                <li><strong>Funcion LIneal:Suma/Resta:</strong> `x + 2`, `3x - 5`</li>
                 <li><strong>Multiplicación:</strong> `2 * x`, `3x` (se asume 3*x), `(x+1)(x-2)`</li>
-                <li><strong>División:</strong> `x / 2`, `1 / (x - 1)`</li>
-                <li><strong>Potencias:</strong> `x^2`, `x^3`, `sqrt(x)` para raíz cuadrada</li>
-                <li><strong>Constantes:</strong> `pi` (para $\\pi$), `e` (para el número de Euler)</li>
+                <li><strong>Funcion Racional:</strong> `x / 2`, `1 / (x - 1)`</li>
+                <li><strong>Funcion cuadratica:</strong> `x^2`, `x^3`, `sqrt(x)` para funcion raíz cuadrada</li>
+                <li><strong>Funcion Constantes:</strong> `pi` (para $\\pi$), `e` (para el número de Euler)</li>
                 <li><strong>Paréntesis:</strong> Usa paréntesis para agrupar operaciones, ejemplo: `(x + 1) / (x - 1)`</li>
             </ul>
         </div>
@@ -680,8 +680,8 @@
             resultadoHTML += `<p><b>Dominio:</b></p>`;
             switch (tipoFuncion) {
                 case "racional":
-                    resultadoHTML += `<div class="explicacion">Para una **función racional** ($f(x) = P(x)/Q(x)$), el dominio incluye todos los números reales excepto aquellos valores de $x$ que hacen que el **denominador ($Q(x)$) sea cero**. Debes igualar el denominador a cero para encontrar las restricciones.</div>`;
-                    break;
+                    resultadoHTML += `<div class="explicacion">Para una **función racional** ($f(x) = P(x)/Q(x)$), el dominio incluye todos los números reales excepto aquellos valores de $x$ que hacen que el **denominador ($Q(x)$) sea cero**. Debes igualar el denominador a cero para encontrar las restricciones.</div>;
+                    break;  
                 case "polinomica":
                     resultadoHTML += `<div class="explicacion">El dominio de cualquier **función polinómica** son **todos los números reales** $(-\\infty, \\infty)$, ya que no hay valores de $x$ que causen indefiniciones (como divisiones por cero o raíces de números negativos).</div>`;
                     break;
