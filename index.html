@@ -1,867 +1,879 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <title>Analizador Inteligente de Funciones</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Analizador de Funciones.">
+    <meta name="keywords" content="analizador de funciones, graficador, matemáticas, cálculo, funciones, online">
+    <meta name="author" content="David Chungata">
+
+    <title>Analizador de Funciones</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.4.0/math.min.js"></script>
 
     <style>
         :root {
-            --primary-color: #3B82F6; /* Azul vibrante */
-            --primary-dark: #2563EB; /* Azul más oscuro para hover */
-            --secondary-color: #10B981; /* Verde esmeralda */
-            --background-light: #F9FAFB; /* Fondo muy claro */
-            --background-dark: #E5E7EB; /* Gris claro para secciones */
-            --text-dark: #1F2937; /* Texto oscuro */
-            --text-light: #F9FAFB; /* Texto claro */
-            --border-color: #D1D5DB; /* Borde gris */
-            --success-bg: #D1FAE5; /* Fondo verde para resultados */
-            --success-text: #065F46; /* Texto verde para resultados */
-            --info-bg: #DBEAFE; /* Fondo azul para explicaciones/info */
-            --info-text: #1E40AF; /* Texto azul para explicaciones/info */
+            /* Paleta de colores más moderna y limpia */
+            --primary-blue: #30353d; /* Azul oscuro elegante */
+            --primary-light-blue: #3B82F6; /* Azul brillante y moderno para la gráfica */
+            --secondary-blue: #DBEAFE; /* Azul claro para fondos secundarios */
+            --gray-bg: #F3F4F6; /* Fondo general de la página */
+            --white-card: #FFFFFF; /* Fondo para tarjetas y secciones */
+            --border-color: #E5E7EB; /* Bordes suaves */
+            --text-dark: #1F2937; /* Texto principal oscuro */
+            --text-medium: #4B5563; /* Texto secundario */
+            --text-light: #6B7280; /* Texto de ayuda/placeholder */
+            --info-bubble: #1F2937; /* Fondo oscuro para tooltips */
+            --success-bg: #D1FAE5; /* Fondo verde para resultados positivos */
+            --success-text: #065F46; /* Texto verde para resultados positivos */
             --error-bg: #FEE2E2; /* Fondo rojo para errores */
             --error-text: #991B1B; /* Texto rojo para errores */
-            --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --shadow-medium: 0 10px 15px rgba(0, 0, 0, 0.1);
         }
 
         body {
-            font-family: 'Poppins', sans-serif; /* Fuente moderna para el cuerpo */
+            font-family: 'Inter', sans-serif;
             margin: 0;
-            padding: 20px;
-            background: var(--background-light);
+            padding: 0;
+            background-color: var(--gray-bg);
             color: var(--text-dark);
-            line-height: 1.6;
-            /* Estilo de fondo matemático */
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23E5E7EB' fill-opacity='0.4' fill-rule='evenodd'%3E%3Cpath d='M0 59.5V60h1V0H0v59.5zM8 0h1v60H8V0zM16 0h1v60h-1V0zM24 0h1v60h-1V0zM32 0h1v60h-1V0zM40 0h1v60h-1V0zM48 0h1v60h-1V0zM56 0h1v60h-1V0zM0 0h60v1H0V0zM0 8h60v1H0V8zM0 16h60v1H0V16zM0 24h60v1H0V24zM0 32h60v1H0V32zM0 40h60v1H0V40zM0 48h60v1H0V48zM0 56h60v1H0V56z'/%3E%3Ctext x='5' y='18' font-family='Georgia, serif' font-size='10' fill='%23B0B0B0'%3E%E2%88%AB%3C/text%3E%3Ctext x='25' y='38' font-family='Georgia, serif' font-size='10' fill='%23B0B0B0'%3E%CE%A0%3C/text%3E%3Ctext x='45' y='8' font-family='Georgia, serif' font-size='10' fill='%23B0B0B0'%3E%E2%88%9A%3C/text%3E%3Ctext x='15' y='48' font-family='Georgia, serif' font-size='10' fill='%23B0B0B0'%3E%CE%B1%3C/text%3E%3Ctext x='35' y='28' font-family='Georgia, serif' font-size='10' fill='%23B0B0B0'%3E%E2%88%91%3C/text%3E%3C/g%3E%3C/svg%3E");
-            background-repeat: repeat;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            overflow-x: hidden;
+            padding: 30px 15px; /* Espaciado general */
         }
 
-        .container {
-            max-width: 960px;
-            margin: 0 auto;
-            padding: 20px;
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: var(--shadow-medium);
+        .app-container {
+            width: 100%;
+            max-width: 800px; /* Ancho máximo para la aplicación */
+            display: flex;
+            flex-direction: column;
+            gap: 25px; /* Espacio entre secciones */
         }
 
-        h2 {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            color: var(--primary-color);
+        .app-title {
             text-align: center;
-            margin-bottom: 30px;
-            font-size: 2.2em;
+            color: var(--primary-blue);
+            font-size: 2.8em;
+            margin-bottom: 25px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
         }
 
-        /* Estilos para los campos de entrada */
-        .form-group {
+        /* Estilo general para las tarjetas/secciones */
+        section {
+            background-color: var(--white-card);
+            border-radius: 12px; /* Más redondeado */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Sombra más pronunciada pero suave */
+            padding: 30px;
+            border: 1px solid var(--border-color); /* Borde sutil */
+        }
+
+        /* SECCIÓN DE INSTRUCCIONES / AYUDA SIMPLIFICADA */
+        .info-card {
+            background-color: var(--secondary-blue);
+            border: 1px solid var(--primary-light-blue);
+            color: var(--text-medium);
+            padding: 20px 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .info-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
             margin-bottom: 15px;
         }
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--text-dark);
-            font-size: 1.1em;
+        .info-icon {
+            color: var(--primary-blue);
+            font-size: 1.6em;
+            flex-shrink: 0;
+            margin-top: 2px;
         }
 
-        input[type="text"] {
-            width: calc(100% - 22px); /* Ancho completo - padding - borde */
-            padding: 12px;
+        .info-card p {
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .example-text {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-top: 15px;
+            border-top: 1px dashed var(--border-color);
+            padding-top: 15px;
+        }
+
+        /* SECCIÓN DE ENTRADA Y CONFIGURACIÓN DE LA FUNCIÓN */
+        .input-section {
+            display: grid;
+            grid-template-columns: 1fr; /* Una columna por defecto */
+            gap: 20px; /* Espacio entre filas */
+        }
+
+        @media (min-width: 600px) {
+            .input-section {
+                grid-template-columns: repeat(2, 1fr); /* Dos columnas en pantallas más grandes */
+            }
+            .input-section .action-button {
+                grid-column: span 2; /* El botón ocupa ambas columnas */
+            }
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            position: relative; /* Para el tooltip */
+        }
+
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: var(--text-medium);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95em;
+        }
+
+        .form-input {
+            padding: 14px 18px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
             font-size: 1em;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            box-sizing: border-box; /* Incluye padding y borde en el ancho */
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-            font-family: 'Roboto Mono', monospace; /* Fuente monoespaciada para la función */
-        }
-
-        input[type="text"]:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); /* Sutil brillo al enfocar */
+            color: var(--text-dark);
             outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            background-color: var(--gray-bg); /* Fondo sutil para inputs */
         }
 
-        button {
-            width: 100%;
-            padding: 12px 20px;
+        .form-input:focus {
+            border-color: var(--primary-light-blue);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2); /* Sombra de foco */
+            background-color: var(--white-card);
+        }
+
+        /* Tooltip */
+        .tooltip-trigger {
+            position: relative;
+            cursor: help;
+            color: var(--primary-light-blue);
+            display: inline-flex; /* Para que el icono se alinee con el texto */
+            align-items: center;
+        }
+
+        .tooltip-trigger .fas {
+            font-size: 0.9em;
+        }
+
+        .tooltip-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--info-bubble);
+            color: white;
+            padding: 12px 18px;
+            border-radius: 8px;
+            font-size: 0.8em;
+            width: 280px;
+            z-index: 10;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: translateY(10px);
+            white-space: normal;
+            line-height: 1.5;
+        }
+
+        .tooltip-trigger:hover .tooltip-content,
+        .tooltip-trigger:focus-within .tooltip-content {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .tooltip-content p {
+            margin: 5px 0;
+        }
+        .tooltip-content p:first-child { margin-top: 0; }
+        .tooltip-content p:last-child { margin-bottom: 0; }
+
+        /* Botones */
+        .action-button {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 10px;
             font-size: 1.1em;
             font-weight: 600;
-            background: var(--primary-color);
-            color: var(--text-light);
-            border: none;
-            border-radius: 8px;
             cursor: pointer;
-            transition: background 0.3s ease, transform 0.2s ease;
-            margin-top: 10px;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 6px 15px rgba(59, 130, 246, 0.3);
         }
 
-        button:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px); /* Efecto ligero al pasar el ratón */
+        .action-button:hover {
+            background-color: #2563EB; /* Azul más oscuro */
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
         }
 
-        button:active {
-            transform: translateY(0); /* Efecto al hacer clic */
+        .action-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(59, 130, 246, 0.2);
         }
 
-        /* Estilos para el área de gráfica */
-        #graph {
-            margin-top: 30px;
-            height: 480px; /* Un poco más alto para mejor visualización */
-            border-radius: 10px;
-            box-shadow: var(--shadow-light);
-            background-color: #fff; /* Asegura un fondo blanco para el gráfico */
-            overflow: hidden; /* Para que los bordes redondeados se apliquen bien */
+        .button-icon {
+            font-size: 1.2em;
         }
 
-        /* Estilos para los bloques de resultados */
-        .result-box {
-            margin-top: 25px;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: var(--shadow-light);
+        /* SECCIÓN DE GRÁFICO Y RESULTADOS */
+        .results-section {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
         }
 
-        #resultados {
-            background: var(--success-bg);
-            color: var(--success-text);
-            border: 1px solid var(--secondary-color);
-        }
-        #tabla-valores {
-            background: var(--background-dark);
-            color: var(--text-dark);
+        .graph-container {
+            min-height: 400px; /* Altura mínima para la gráfica */
+            background-color: var(--white-card);
             border: 1px solid var(--border-color);
-            /* min-height para que siempre tenga un tamaño aunque esté vacío */
-            min-height: 80px; /* Un poco de altura mínima */
+            border-radius: 10px;
+            overflow: hidden; /* Asegura que la gráfica no se salga */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative; /* Necesario para que Plotly se posicione correctamente */
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
         }
 
-        /* Estilos específicos para mensajes de información/ejemplo */
-        .info-message, .error-message {
+        /* Asegurarse de que el contenido de Plotly ocupe todo el espacio */
+        .js-plotly-plot {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .analysis-output {
+            background-color: var(--gray-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .analysis-output h3 {
+            color: var(--primary-blue);
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .analysis-output pre {
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.95em;
+            color: var(--text-dark);
+            margin: 0;
+            min-height: 60px; /* Espacio mínimo para el texto */
+            line-height: 1.5;
+        }
+        
+        .analysis-output p {
+            margin: 5px 0;
+        }
+
+        /* Estilos para mensajes de éxito/error */
+        .message-box {
             padding: 12px 15px;
             border-radius: 8px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             font-size: 0.95em;
             display: flex;
-            align-items: flex-start; /* Alinea ícono y texto al inicio */
+            align-items: flex-start;
+            gap: 10px;
         }
-        .info-message {
-            background: var(--info-bg);
-            color: var(--info-text);
-            border: 1px solid var(--primary-color);
-        }
-        .error-message {
-            background: var(--error-bg);
+        .message-box.error {
+            background-color: var(--error-bg);
             color: var(--error-text);
             border: 1px solid var(--error-text);
         }
-        .info-message i, .error-message i {
-            margin-right: 10px;
+        .message-box.info {
+            background-color: var(--secondary-blue);
+            color: var(--text-medium);
+            border: 1px solid var(--primary-light-blue);
+        }
+        .message-box.success {
+            background-color: var(--success-bg);
+            color: var(--success-text);
+            border: 1px solid var(--success-text);
+        }
+        .message-box i {
+            margin-top: 2px;
             font-size: 1.2em;
-            margin-top: 3px; /* Ajuste para alinear con el texto */
         }
 
-        pre {
-            background: var(--background-dark);
-            padding: 10px;
-            border-radius: 6px;
-            overflow-x: auto; /* Para scroll horizontal si el código es largo */
-            font-family: 'Roboto Mono', monospace;
-            font-size: 0.9em;
-            color: var(--text-dark);
-        }
-
-        /* Estilos para la tabla */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-            font-size: 0.95em;
-        }
-
-        th, td {
-            border: 1px solid var(--border-color);
-            padding: 10px;
-            text-align: center;
-            font-family: 'Roboto Mono', monospace;
-        }
-
-        th {
-            background-color: var(--primary-color);
-            color: var(--text-light);
-            font-weight: 600;
-        }
-
-        tr:nth-child(even) {
-            background-color: var(--background-light); /* Rayas alternas en la tabla */
-        }
-        tr:hover {
-            background-color: var(--background-dark); /* Resaltar fila al pasar el ratón */
-        }
-
-        /* Estilos para las explicaciones dentro de los resultados */
-        .explicacion {
-            font-size: 0.9em;
-            color: var(--info-text);
-            background-color: var(--info-bg);
+        /* Estilo para explicaciones dentro del pre */
+        .explanation {
+            font-size: 0.85em;
+            color: var(--text-medium);
+            background-color: var(--gray-bg);
             padding: 8px 12px;
             border-radius: 6px;
-            margin-top: 8px;
-            border-left: 4px solid var(--primary-color);
+            margin-top: 10px;
+            margin-bottom: 10px;
+            border-left: 3px solid var(--primary-light-blue);
         }
 
-        /* Estilos para el loader */
-        .loader {
-            border: 4px solid var(--background-dark);
-            border-top: 4px solid var(--primary-color);
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
-            display: none; /* Oculto por defecto */
+        /* Ajustes para pantallas pequeñas */
+        @media (max-width: 480px) {
+            .app-title {
+                font-size: 2.2em;
+            }
+            section {
+                padding: 20px;
+            }
+            .form-input, .action-button {
+                padding: 12px 15px;
+                font-size: 1em;
+            }
+            .info-card {
+                padding: 15px;
+            }
+            .tooltip-content {
+                width: 200px;
+                font-size: 0.75em;
+                padding: 10px;
+            }
         }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Pop-up de órdenes posibles */
-        .popup-container {
-            position: relative;
-            display: inline-block;
-            margin-left: 5px;
-        }
-        .popup-button {
-            background: none;
-            border: none;
-            color: var(--primary-color);
-            font-size: 1em;
-            cursor: pointer;
-            padding: 0;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            transition: background 0.3s ease;
-        }
-        .popup-button:hover {
-            background: rgba(59, 130, 246, 0.1);
-        }
-        .popup-content {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 250px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            padding: 12px;
-            z-index: 1;
-            border-radius: 8px;
-            left: 0;
-            top: 30px; /* Debajo del botón */
-            font-size: 0.9em;
-            line-height: 1.4;
-            border: 1px solid var(--border-color);
-        }
-        .popup-content.show {
-            display: block;
-        }
-        .popup-content ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-        .popup-content ul li {
-            margin-bottom: 5px;
-            color: var(--text-dark);
-        }
-        .popup-content ul li strong {
-            color: var(--primary-color);
-        }
-        .popup-content ul li:last-child {
-            margin-bottom: 0;
-        }
-
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>Analizador Inteligente de Funciones</h2>
+    <div class="app-container">
 
-    <div class="info-message">
-        <i class="fas fa-info-circle"></i>
-        <div>
-            Para funciones a trozos, usa el formato: `x < 0 : -x ; x >= 0 : x^2`.<br>
-            Puedes usar funciones como `sin(x)`, `cos(x)`, `log(x)`, `abs(x)`, `exp(x)`, `sqrt(x)` etc.<br>
-            <br>
-            <p><strong>Cómo ingresar problemas:</strong></p>
-            <ul>
-                <li><strong>Funcion LIneal:Suma/Resta:</strong> `x + 2`, `3x - 5`</li>
-                <li><strong>Multiplicación:</strong> `2 * x`, `3x` (se asume 3*x), `(x+1)(x-2)`</li>
-                <li><strong>Funcion Racional:</strong> `x / 2`, `1 / (x - 1)`</li>
-                <li><strong>Funcion cuadratica:</strong> `x^2`, `x^3`, `sqrt(x)` para funcion raíz cuadrada</li>
-                <li><strong>Funcion Constantes:</strong> `pi` (para $\\pi$), `e` (para el número de Euler)</li>
-                <li><strong>Paréntesis:</strong> Usa paréntesis para agrupar operaciones, ejemplo: `(x + 1) / (x - 1)`</li>
-            </ul>
-        </div>
-    </div>
+        <h1 class="app-title">Analizador de Funciones</h1>
 
-    <div class="form-group">
-        <label for="funcion">Función:</label>
-        <input id="funcion" type="text" placeholder="Ej: x^2, 1/(x-1), x<0:-x;x>=0:x^2" value="x^2">
-    </div>
+        <section class="info-card">
+            <div class="info-header">
+                <i class="fas fa-info-circle info-icon"></i>
+                <p>Ingresa una función en el campo de abajo. Puedes usar `x`, `sin(x)`, `cos(x)`, `tan(x)`, `log(x)`, `abs(x)`, `sqrt(x)`, `pi`, `e`, potencias (`x^2`), y paréntesis `( )`.</p>
+            </div>
+            <p class="example-text">**Ejemplos:** `x^2`, `sin(x)`, `2*x + 3`, `(x+1)/(x-1)`</p>
+        </section>
 
-    <div class="form-group">
-        <label for="orden">
-            Orden (opcional):
-            <div class="popup-container">
-                <button type="button" class="popup-button" onclick="togglePopup(event)">
-                    <i class="fas fa-question-circle"></i>
-                </button>
-                <div id="orden-popup" class="popup-content">
-                    <ul>
-                        <li><strong>"explica el dominio"</strong>: Intenta describir el dominio.</li>
-                        <li><strong>"explica el rango"</strong>: Intenta describir el rango.</li>
-                        <li><strong>"explica asintotas"</strong>: Describe las asíntotas.</li>
-                        <li><strong>"explica monotonía"</strong>: Indica si es creciente/decreciente. (Limitado)</li>
-                        <li><strong>"explica simetría"</strong>: Indica si es par/impar. (Limitado)</li>
-                        <li><strong>"muestra la tabla de valores N"</strong>: Genera una tabla con N puntos. (Ej: "muestra la tabla de valores 10")</li>
-                        <li>(Deja vacío para análisis básico y gráfica)</li>
-                    </ul>
+        <section class="input-section">
+            <div class="form-group">
+                <label for="function-input" class="form-label">Función:</label>
+                <input type="text" id="function-input" class="form-input" value="x^2" placeholder="Ej: x^2 + 2*x - 1">
+            </div>
+
+            <div class="form-group">
+                <label for="order-input" class="form-label">
+                    Análisis Adicional (opcional): 
+                    <span class="tooltip-trigger">
+                        <i class="fas fa-question-circle"></i>
+                        <span class="tooltip-content">
+                            <p>"dominio": Describe el dominio.</p>
+                            <p>"rango": Describe el rango.</p>
+                            <p>"asíntotas": Describe las asíntotas.</p>
+                            <p>"monotonía": Indica si es creciente/decreciente.</p>
+                            <p>"simetría": Indica si es par/impar.</p>
+                            <p>"tabla N": Genera una tabla con N puntos. (Ej: "tabla 10")</p>
+                        </span>
+                    </span>
+                </label>
+                <input type="text" id="order-input" class="form-input" placeholder="Ej: dominio">
+            </div>
+
+            <div class="form-group">
+                <label for="interval-x-input" class="form-label">Intervalo X (ej. -5,5)</label>
+                <input type="text" id="interval-x-input" class="form-input" value="-5,5" placeholder="Ej: -10,10">
+            </div>
+
+            <button id="analyze-button" class="action-button primary-button">
+                <i class="fas fa-chart-line button-icon"></i> Analizar y Graficar
+            </button>
+        </section>
+
+        <section class="results-section">
+            <div class="graph-container" id="graph-container">
                 </div>
+            
+            <div class="analysis-output">
+                <h3>Resultados del Análisis:</h3>
+                <pre id="analysis-text">Introduce una función y haz clic en "Analizar y Graficar".</pre>
             </div>
-        </label>
-        <input id="orden" type="text" placeholder='Ej: "explica el dominio", "muestra la tabla de valores 5"'>
-    </div>
+        </section>
 
-    <div class="form-group">
-        <label for="rango-x">Intervalo X (ej. -5,5):</label>
-        <input id="rango-x" type="text" placeholder="-5,5" value="-5,5">
-    </div>
+    </div> 
 
-    <div class="form-group">
-        <label for="extension-x">Extensión Horizontal (factor):</label>
-        <input id="extension-x" type="text" placeholder="Ej: 1 (normal), 2 (doble ancho)" value="1">
-    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Referencias a los elementos del DOM
+            const functionInput = document.getElementById('function-input');
+            const orderInput = document.getElementById('order-input');
+            const intervalXInput = document.getElementById('interval-x-input');
+            const analyzeButton = document.getElementById('analyze-button');
+            const graphContainer = document.getElementById('graph-container'); // Contenedor para Plotly
+            const analysisText = document.getElementById('analysis-text');
 
-    <div class="form-group">
-        <label for="extension-y">Extensión Vertical (factor):</label>
-        <input id="extension-y" type="text" placeholder="Ej: 0 (rango auto), 2 (doble altura)" value="0">
-    </div>
+            // Función para parsear función a trozos (si aplica)
+            function parseFuncionATrozos(str) {
+                const partes = str.split(";").map(p => p.trim()).filter(p => p.length > 0);
 
-    <div class="form-group">
-        <label for="num-puntos-mostrar">Mostrar Puntos en la Gráfica (cantidad, 0 para no mostrar):</label>
-        <input id="num-puntos-mostrar" type="text" placeholder="Ej: 5, 10, 0" value="0">
-        <div class="info-message" style="margin-top: 10px; margin-bottom: 0px;">
-            <i class="fas fa-info-circle"></i>
-            <div>
-                Introduce un número para la cantidad de puntos a graficar. Prueba con `10`, `20` o más para ver la forma de la función. Un valor de `0` (cero) solo mostrará la línea continua.
-            </div>
-        </div>
-    </div>
-
-    <button onclick="analizar()">
-        <i class="fas fa-chart-line"></i> Analizar Función
-    </button>
-
-    <div class="loader" id="loader"></div>
-
-    <div id="graph"></div>
-
-    <div id="resultados" class="result-box">
-        <h3>Resultados del Análisis</h3>
-        <p>Introduce una función y haz clic en "Analizar Función" para ver los resultados.</p>
-    </div>
-
-    <div id="tabla-valores" class="result-box">
-        <h3>Tabla de Valores</h3>
-        <p>Aquí aparecerá una tabla de valores si la solicitas con la orden "muestra la tabla de valores N".</p>
-    </div>
-</div>
-
-<script>
-    // Configuración global para plotly
-    Plotly.setPlotConfig({
-        responsive: true // Hace que el gráfico sea responsivo
-    });
-
-    // Parseamos función a trozos, devuelve función que evalúa el x dado
-    function parseFuncionATrozos(str) {
-        const partes = str.split(";").map(p => p.trim()).filter(p => p.length > 0);
-
-        if (partes.length === 1 && !partes[0].includes(':')) {
-            // No está a trozos, es función normal
-            try {
-                const node = math.parse(str);
-                return x => {
+                if (partes.length === 1 && !partes[0].includes(':')) {
                     try {
-                        // Usar math.evaluate con el scope para pasar x
-                        return node.evaluate({ x: x });
+                        const node = math.parse(str);
+                        return x => {
+                            try {
+                                return node.evaluate({ x: x });
+                            } catch (e) {
+                                return NaN; // Error de evaluación (ej. log de negativo)
+                            }
+                        };
                     } catch (e) {
-                        return NaN; // Error de evaluación (ej. log de negativo)
+                        throw new Error("La expresión de la función no es válida.");
                     }
-                };
-            } catch (e) {
-                console.error("Error al compilar la función:", e);
-                throw new Error("La expresión de la función no es válida.");
-            }
-        }
-
-        // Es una función a trozos
-        const condiciones = partes.map(p => {
-            let [cond, expr] = p.split(":");
-            if (!expr || !cond) {
-                throw new Error("Formato de función a trozos inválido. Usa 'condicion : expresion;'.");
-            }
-            return {
-                condNode: math.parse(cond.trim()),
-                exprNode: math.parse(expr.trim())
-            };
-        });
-
-        return x => {
-            for (let c of condiciones) {
-                try {
-                    if (c.condNode.evaluate({ x })) {
-                        return c.exprNode.evaluate({ x });
-                    }
-                } catch (e) {
-                    // Si hay un error en la condición o expresión, se considera NaN
-                    return NaN;
                 }
-            }
-            return NaN; // Si no cumple ninguna condición
-        };
-    }
 
-    // Función para obtener el tipo de función
-    function getTipoFuncion(funcStr) {
-        funcStr = funcStr.toLowerCase();
-        // Función racional: tiene una división por x en el denominador
-        if (funcStr.includes('/') && funcStr.match(/\/.*\bx\b/)) {
-            // Un chequeo más robusto podría analizar el parse tree, pero esto es una aproximación
-            return "racional";
-        }
-        // Función polinómica: solo sumas, restas, multiplicaciones y potencias enteras no negativas de x
-        // No incluye funciones trascendentales (sin, cos, log, exp, sqrt) ni divisiones con x en el denominador.
-        if (!funcStr.includes('/') && !funcStr.includes('sqrt') && !funcStr.includes('log') &&
-            !funcStr.includes('sin') && !funcStr.includes('cos') && !funcStr.includes('tan') &&
-            !funcStr.includes('exp') && !funcStr.includes('abs') && !funcStr.includes('pi') && !funcStr.includes('e')) {
-            // Intenta parsear para ver si solo contiene nodos de tipo 'OperatorNode' o 'ConstantNode' con 'x'
-            try {
-                const node = math.parse(funcStr);
-                let isPolynomial = true;
-                node.filter(n => n.isSymbolNode || n.isFunctionNode || n.isOperatorNode || n.isParenthesisNode).forEach(n => {
-                    if (n.isFunctionNode) { // No es polinómica si usa funciones como sin, cos, sqrt
-                        isPolynomial = false;
-                    } else if (n.isSymbolNode && n.name !== 'x') { // Otras variables además de x
-                        isPolynomial = false;
-                    } else if (n.isOperatorNode && n.op === '^') { // Verifica que los exponentes sean números
-                        const powerNode = n.args[1];
-                        if (powerNode && powerNode.isConstantNode && (powerNode.value < 0 || !Number.isInteger(powerNode.value))) {
-                            isPolynomial = false; // Exponente negativo o no entero
+                const condiciones = partes.map(p => {
+                    let [cond, expr] = p.split(":");
+                    if (!expr || !cond) {
+                        throw new Error("Formato de función a trozos inválido. Usa 'condicion : expresion;'.");
+                    }
+                    return {
+                        condNode: math.parse(cond.trim()),
+                        exprNode: math.parse(expr.trim())
+                    };
+                });
+
+                return x => {
+                    for (let c of condiciones) {
+                        try {
+                            if (c.condNode.evaluate({ x })) {
+                                return c.exprNode.evaluate({ x });
+                            }
+                        } catch (e) {
+                            return NaN;
                         }
                     }
-                });
-                return isPolynomial ? "polinomica" : "otra";
-            } catch (e) {
+                    return NaN;
+                };
+            }
+
+            // Función para obtener el tipo de función
+            function getTipoFuncion(funcStr) {
+                funcStr = funcStr.toLowerCase();
+                if (funcStr.includes('/') && funcStr.match(/\/.*\bx\b/)) {
+                    return "racional";
+                }
+                if (!funcStr.includes('/') && !funcStr.includes('sqrt') && !funcStr.includes('log') &&
+                    !funcStr.includes('sin') && !funcStr.includes('cos') && !funcStr.includes('tan') &&
+                    !funcStr.includes('exp') && !funcStr.includes('abs') && !funcStr.includes('pi') && !funcStr.includes('e')) {
+                    try {
+                        const node = math.parse(funcStr);
+                        let isPolynomial = true;
+                        node.filter(n => n.isSymbolNode || n.isFunctionNode || n.isOperatorNode || n.isParenthesisNode).forEach(n => {
+                            if (n.isFunctionNode) { isPolynomial = false; } 
+                            else if (n.isSymbolNode && n.name !== 'x') { isPolynomial = false; } 
+                            else if (n.isOperatorNode && n.op === '^') {
+                                const powerNode = n.args[1];
+                                if (powerNode && powerNode.isConstantNode && (powerNode.value < 0 || !Number.isInteger(powerNode.value))) {
+                                    isPolynomial = false;
+                                }
+                            }
+                        });
+                        return isPolynomial ? "polinomica" : "otra";
+                    } catch (e) {
+                        return "otra";
+                    }
+                }
+                if (funcStr.includes('sqrt(')) {
+                    return "raiz_cuadrada";
+                }
+                if (funcStr.includes(':') && funcStr.includes(';')) {
+                    return "a_trozos";
+                }
                 return "otra";
             }
-        }
-        // Función raíz cuadrada
-        if (funcStr.includes('sqrt(')) {
-            return "raiz_cuadrada";
-        }
-        // Función a trozos
-        if (funcStr.includes(':') && funcStr.includes(';')) {
-            return "a_trozos";
-        }
-        
-        return "otra"; // Por defecto, si no coincide con los anteriores
-    }
 
-    async function analizar() {
-        const fInput = document.getElementById("funcion").value.trim();
-        const orden = document.getElementById("orden").value.trim().toLowerCase();
-        const rangoXInput = document.getElementById("rango-x").value.trim();
-        const extensionXFactor = parseFloat(document.getElementById("extension-x").value);
-        const extensionYFactor = parseFloat(document.getElementById("extension-y").value);
-        const numPuntosMostrar = parseInt(document.getElementById("num-puntos-mostrar").value);
+            // Función principal para analizar y graficar
+            async function analyzeAndPlot() {
+                const functionExpression = functionInput.value.trim();
+                const order = orderInput.value.trim().toLowerCase();
+                const intervalXStr = intervalXInput.value.trim();
 
+                analysisText.innerHTML = '<div class="message-box info"><i class="fas fa-sync fa-spin"></i> Calculando...</div>';
+                graphContainer.innerHTML = ''; // Limpiar gráfico anterior
 
-        const resultadosDiv = document.getElementById("resultados");
-        const tablaValoresDiv = document.getElementById("tabla-valores");
-        const loader = document.getElementById("loader");
-
-        resultadosDiv.innerHTML = '<h3>Resultados del Análisis</h3><p>Calculando...</p>';
-        tablaValoresDiv.innerHTML = '<h3>Tabla de Valores</h3><p>Aquí aparecerá una tabla de valores si la solicitas con la orden "muestra la tabla de valores N".</p>';
-        tablaValoresDiv.style.display = 'block';
-
-        loader.style.display = 'block';
-
-        if (!fInput) {
-            resultadosDiv.innerHTML = `<div class="error-message"><i class="fas fa-exclamation-triangle"></i> Por favor ingresa una función.</div>`;
-            loader.style.display = 'none';
-            return;
-        }
-
-        if (isNaN(extensionXFactor) || extensionXFactor <= 0) {
-            resultadosDiv.innerHTML = `<div class="error-message"><i class="fas fa-exclamation-triangle"></i> Factor de Extensión Horizontal inválido. Debe ser un número positivo.</div>`;
-            loader.style.display = 'none';
-            return;
-        }
-        if (isNaN(extensionYFactor) || extensionYFactor < 0) {
-            resultadosDiv.innerHTML = `<div class="error-message"><i class="fas fa-exclamation-triangle"></i> Factor de Extensión Vertical inválido. Debe ser un número no negativo.</div>`;
-            loader.style.display = 'none';
-            return;
-        }
-        if (isNaN(numPuntosMostrar) || numPuntosMostrar < 0) {
-            resultadosDiv.innerHTML = `<div class="error-message"><i class="fas fa-exclamation-triangle"></i> Cantidad de puntos a mostrar inválida. Debe ser un número entero no negativo.</div>`;
-            loader.style.display = 'none';
-            return;
-        }
-
-        let originalStartX = -5, originalEndX = 5;
-        if (rangoXInput.includes(",")) {
-            let [s, e] = rangoXInput.split(",").map(val => parseFloat(val.trim()));
-            originalStartX = s;
-            originalEndX = e;
-            if (isNaN(originalStartX) || isNaN(originalEndX) || originalStartX >= originalEndX) {
-                resultadosDiv.innerHTML = `<div class="error-message"><i class="fas fa-exclamation-triangle"></i> Intervalo X inválido. Usa el formato: "inicio,fin" (ej. -5,5).</div>`;
-                loader.style.display = 'none';
-                return;
-            }
-        }
-
-        // Aplicar factor de extensión X
-        const midX = (originalStartX + originalEndX) / 2;
-        const halfRangeX = (originalEndX - originalStartX) / 2;
-        let startX = midX - (halfRangeX * extensionXFactor);
-        let endX = midX + (halfRangeX * extensionXFactor);
-
-        let f;
-        try {
-            f = parseFuncionATrozos(fInput);
-        } catch (e) {
-            resultadosDiv.innerHTML = `<div class="error-message"><i class="fas fa-exclamation-triangle"></i> Error al parsear la función: ${e.message}</div>`;
-            loader.style.display = 'none';
-            return;
-        }
-
-        await new Promise(resolve => setTimeout(resolve, 300));
-
-        const pasos = 1000;
-        const xs = [];
-        const ys = [];
-        for (let i = 0; i <= pasos; i++) {
-            let x = startX + ((endX - startX) * i) / pasos;
-            let y = f(x);
-            if (!isFinite(y)) y = NaN;
-            xs.push(x);
-            ys.push(y);
-        }
-
-        const validYs = ys.filter(y => !isNaN(y) && isFinite(y));
-        let minYVal = validYs.length > 0 ? Math.min(...validYs) : -10;
-        let maxYVal = validYs.length > 0 ? Math.max(...validYs) : 10;
-        
-        let plotLayout = {
-            margin: { t: 30, b: 50, l: 60, r: 20 },
-            xaxis: {
-                title: { text: "x", font: { family: 'Poppins', size: 16, color: var_to_rgb('--text-dark') } },
-                gridcolor: var_to_rgb('--border-color'),
-                zerolinecolor: 'rgb(100, 100, 100)',
-                zerolinewidth: 2,
-                showline: true,
-                linecolor: 'rgb(100, 100, 100)',
-                tickfont: { family: 'Roboto Mono' },
-                showarrow: true,
-                arrowhead: 2,
-                arrowsize: 1,
-                range: [startX, endX] // Asegura que el rango X refleje la extensión
-            },
-            yaxis: {
-                title: { text: "f(x)", font: { family: 'Poppins', size: 16, color: var_to_rgb('--text-dark') } },
-                gridcolor: var_to_rgb('--border-color'),
-                zerolinecolor: 'rgb(100, 100, 100)',
-                zerolinewidth: 2,
-                showline: true,
-                linecolor: 'rgb(100, 100, 100)',
-                tickfont: { family: 'Roboto Mono' },
-                showarrow: true,
-                arrowhead: 2,
-                arrowsize: 1,
-                rangemode: 'normal' // Por defecto para que Plotly ajuste
-            },
-            plot_bgcolor: 'white',
-            paper_bgcolor: 'white',
-            font: {
-                family: 'Poppins',
-                color: var_to_rgb('--text-dark')
-            }
-        };
-
-        // Aplicar factor de extensión Y si es > 0
-        if (extensionYFactor > 0 && validYs.length > 0) {
-            const centerY = (minYVal + maxYVal) / 2;
-            const halfRangeY = (maxYVal - minYVal) / 2;
-
-            const newMinY = centerY - (halfRangeY * extensionYFactor);
-            const newMaxY = centerY + (halfRangeY * extensionYFactor);
-            
-            plotLayout.yaxis.range = [newMinY, newMaxY];
-            // Puedes ajustar rangemode si quieres que el eje Y siempre incluya el 0
-            // plotLayout.yaxis.rangemode = 'tozero'; 
-        }
-
-        // Definir la traza de la línea de la función
-        let plotData = [{
-            x: xs,
-            y: ys,
-            mode: "lines",
-            name: "f(x)",
-            line: { color: var_to_rgb('--primary-color'), width: 2 },
-            hoverinfo: 'x+y'
-        }];
-
-        // Añadir la traza de puntos si numPuntosMostrar es mayor que 0
-        if (numPuntosMostrar > 0) {
-            const puntosX = [];
-            const puntosY = [];
-            // Si hay solo un punto, solo graficamos ese. Si hay más, distribuimos.
-            const stepPuntos = numPuntosMostrar === 1 ? 0 : (endX - startX) / (numPuntosMostrar - 1);
-
-            for (let i = 0; i < numPuntosMostrar; i++) {
-                let x = startX + i * stepPuntos;
-                let y = f(x);
-                if (isFinite(y)) { // Solo añade puntos definidos
-                    puntosX.push(x);
-                    puntosY.push(y);
+                if (!functionExpression) {
+                    analysisText.innerHTML = '<div class="message-box error"><i class="fas fa-exclamation-triangle"></i> Por favor, introduce una función.</div>';
+                    return;
                 }
-            }
-            
-            plotData.push({
-                x: puntosX,
-                y: puntosY,
-                mode: 'markers', // <-- Esto asegura que sean puntos individuales
-                name: `Puntos (${numPuntosMostrar})`,
-                marker: {
-                    color: var_to_rgb('--secondary-color'), // Color de los puntos
-                    size: 8,
-                    symbol: 'circle',
-                    line: {
-                        color: 'white',
-                        width: 1
+
+                let startX = -10, endX = 10;
+                const intervalParts = intervalXStr.split(',').map(val => parseFloat(val.trim()));
+                if (intervalParts.length === 2 && !isNaN(intervalParts[0]) && !isNaN(intervalParts[1])) {
+                    startX = intervalParts[0];
+                    endX = intervalParts[1];
+                    if (startX >= endX) {
+                        analysisText.innerHTML = '<div class="message-box error"><i class="fas fa-exclamation-triangle"></i> Intervalo X inválido. El inicio debe ser menor que el fin (ej. -10,10).</div>';
+                        return;
                     }
-                },
-                hoverinfo: 'x+y'
+                } else {
+                    analysisText.innerHTML = '<div class="message-box error"><i class="fas fa-exclamation-triangle"></i> Formato de intervalo X inválido. Usa "inicio,fin" (ej. -10,10).</div>';
+                    return;
+                }
+
+                let f;
+                try {
+                    f = parseFuncionATrozos(functionExpression);
+                } catch (e) {
+                    analysisText.innerHTML = `<div class="message-box error"><i class="fas fa-exclamation-triangle"></i> Error al parsear la función: ${e.message}</div>`;
+                    return;
+                }
+
+                // Generar puntos para la gráfica
+                const numPoints = 500; // Suficientes puntos para una gráfica suave
+                const xs = [];
+                const ys = [];
+                let minYGraph = Infinity, maxYGraph = -Infinity;
+
+                for (let i = 0; i <= numPoints; i++) {
+                    const x = startX + ((endX - startX) * i) / numPoints;
+                    let y = f(x);
+
+                    // Reemplazar Infinity/-Infinity con NaN para Plotly
+                    if (!isFinite(y)) y = NaN; 
+                    
+                    xs.push(x);
+                    ys.push(y);
+
+                    if (isFinite(y)) {
+                        minYGraph = Math.min(minYGraph, y);
+                        maxYGraph = Math.max(maxYGraph, y);
+                    }
+                }
+
+                // Configurar el layout de Plotly
+                const plotLayout = {
+                    margin: { t: 30, b: 50, l: 60, r: 20 },
+                    xaxis: {
+                        title: { text: "x", font: { family: 'Inter', size: 16, color: getComputedStyle(document.documentElement).getPropertyValue('--text-dark') } },
+                        range: [startX, endX], // Usar el rango X del usuario
+                        gridcolor: getComputedStyle(document.documentElement).getPropertyValue('--border-color'),
+                        zerolinecolor: '#888',
+                        zerolinewidth: 2,
+                        showline: true,
+                        linecolor: '#888',
+                        showarrow: true, // Mostrar flecha en el extremo del eje
+                        arrowhead: 2,     // Tipo de flecha
+                        arrowsize: 1,     // Tamaño de la flecha
+                        rangemode: 'normal' // Permite que el rango se ajuste a los datos (flexible)
+                    },
+                    yaxis: {
+                        title: { text: "f(x)", font: { family: 'Inter', size: 16, color: getComputedStyle(document.documentElement).getPropertyValue('--text-dark') } },
+                        // Rango Y dinámico para que no se vea cortado, pero no se "aleje" demasiado
+                        range: [minYGraph === Infinity ? -10 : minYGraph - (Math.abs(minYGraph) * 0.1 || 1), 
+                                maxYGraph === -Infinity ? 10 : maxYGraph + (Math.abs(maxYGraph) * 0.1 || 1)],
+                        gridcolor: getComputedStyle(document.documentElement).getPropertyValue('--border-color'),
+                        zerolinecolor: '#888',
+                        zerolinewidth: 2,
+                        showline: true,
+                        linecolor: '#888',
+                        showarrow: true,
+                        arrowhead: 2,
+                        arrowsize: 1,
+                        rangemode: 'normal' // O 'tozero' si siempre quieres incluir el 0, pero 'normal' es más flexible.
+                    },
+                    plot_bgcolor: getComputedStyle(document.documentElement).getPropertyValue('--white-card'),
+                    paper_bgcolor: getComputedStyle(document.documentElement).getPropertyValue('--white-card'),
+                    font: {
+                        family: 'Inter',
+                        color: getComputedStyle(document.documentElement).getPropertyValue('--text-dark')
+                    },
+                    hovermode: 'closest' // Mejorar el hover
+                };
+
+                // Datos de la traza para Plotly
+                const trace = {
+                    x: xs,
+                    y: ys,
+                    mode: 'lines',
+                    type: 'scatter',
+                    name: 'f(x)',
+                    line: { color: getComputedStyle(document.documentElement).getPropertyValue('--primary-light-blue'), width: 3 },
+                    hoverinfo: 'x+y'
+                };
+
+                try {
+                    Plotly.newPlot('graph-container', [trace], plotLayout, { 
+                        responsive: true, // Hacer el gráfico responsivo
+                        displayModeBar: false // Ocultar la barra de herramientas de Plotly
+                    });
+                } catch (error) {
+                    analysisText.innerHTML = `<div class="message-box error"><i class="fas fa-exclamation-triangle"></i> Error al graficar: ${error.message}</div>`;
+                    console.error("Error al graficar con Plotly:", error);
+                    return;
+                }
+
+                // --- Lógica de Análisis Adicional ---
+                let analysisOutputHTML = `<h3>Resultados del Análisis:</h3>`;
+                analysisOutputHTML += `<div class="message-box success"><i class="fas fa-check-circle"></i> Función "${functionExpression}" graficada con éxito en [${startX}, ${endX}].</div>`;
+                analysisOutputHTML += `<p><b>Tipo de función:</b> ${getTipoFuncion(functionExpression).replace('_', ' ')}</p>`;
+
+                const tipoFuncion = getTipoFuncion(functionExpression);
+
+                if (order.includes("dominio") || order === "") {
+                    analysisOutputHTML += `<p><b>Dominio:</b></p>`;
+                    switch (tipoFuncion) {
+                        case "racional":
+                            analysisOutputHTML += `<div class="explanation">Para una **función racional** ($f(x) = P(x)/Q(x)$), el dominio incluye todos los números reales excepto aquellos valores de $x$ que hacen que el **denominador ($Q(x)$) sea cero**. Debes igualar el denominador a cero para encontrar las restricciones.</div>`;
+                            break;
+                        case "polinomica":
+                            analysisOutputHTML += `<div class="explanation">El dominio de cualquier **función polinómica** son **todos los números reales** $(-\\infty, \\infty)$, ya que no hay valores de $x$ que causen indefiniciones (como divisiones por cero o raíces de números negativos).</div>`;
+                            break;
+                        case "raiz_cuadrada":
+                            analysisOutputHTML += `<div class="explanation">Para una **función raíz cuadrada** ($f(x) = \\sqrt{g(x)}$), el dominio está definido por la condición de que la expresión bajo la raíz (el radicando $g(x)$) no puede ser negativa. Por lo tanto, debes establecer $g(x) \\ge 0$ y resolver la desigualdad.</div>`;
+                            break;
+                        case "a_trozos":
+                            analysisOutputHTML += `<div class="explanation">Para una **función a trozos**, el dominio se define por las **condiciones especificadas para cada trozo**. La unión de los intervalos donde cada trozo está definido forma el dominio total de la función.</div>`;
+                            break;
+                        default:
+                            analysisOutputHTML += `<div class="explanation">El dominio de una función son todos los valores de $x$ para los cuales la función está definida. Generalmente, buscamos evitar divisiones por cero, raíces pares de números negativos o argumentos no válidos en logaritmos.</div>`;
+                    }
+                    const validXsForDomain = xs.filter((val, index) => isFinite(ys[index]));
+                    if (validXsForDomain.length > 0) {
+                        const firstValidX = validXsForDomain[0];
+                        const lastValidX = validXsForDomain[validXsForDomain.length - 1];
+                        analysisOutputHTML += `<p><b>Dominio aproximado en el intervalo [${startX}, ${endX}]:</b> $[${firstValidX.toFixed(3)}, ${lastValidX.toFixed(3)}]$</p>`;
+                    } else {
+                        analysisOutputHTML += `<p>La función no está definida en el intervalo de $x$ dado.</p>`;
+                    }
+                }
+
+                if (order.includes("rango") || order === "") {
+                    analysisOutputHTML += `<p><b>Rango:</b></p>`;
+                    const validYs = ys.filter(y => !isNaN(y) && isFinite(y));
+                    if (validYs.length > 0) {
+                        const minY = Math.min(...validYs);
+                        const maxY = Math.max(...validYs);
+                        analysisOutputHTML += `<p><b>Rango aproximado en el intervalo [${startX}, ${endX}]:</b> $[${minY.toFixed(3)}, ${maxY.toFixed(3)}]$</p>`;
+                    } else {
+                        analysisOutputHTML += `<p>No se pudo determinar el rango en el intervalo.</p>`;
+                    }
+                    switch (tipoFuncion) {
+                        case "racional":
+                            analysisOutputHTML += `<div class="explanation">El rango de una **función racional** puede ser más complejo y a menudo implica analizar las asíntotas horizontales o el comportamiento de la función cuando $x$ se acerca a infinito. El rango generalmente excluye el valor de la asíntota horizontal (si existe).</div>`;
+                            break;
+                        case "polinomica":
+                            const degreeMatch = functionExpression.match(/x\^(\d+)/);
+                            let degree = 0;
+                            if (degreeMatch) { degree = parseInt(degreeMatch[1]); } else if (functionExpression.includes('x')) { degree = 1; }
+                            if (degree % 2 !== 0 && degree !== 0) {
+                                analysisOutputHTML += `<div class="explanation">Si el grado de una **función polinómica** es **impar**, su rango son **todos los números reales** $(-\\infty, \\infty)$.</div>`;
+                            } else if (degree % 2 === 0 && degree !== 0) {
+                                analysisOutputHTML += `<div class="explanation">Si el grado de una **función polinómica** es **par**, su rango tiene un límite inferior o superior, dependiendo si la gráfica se abre hacia arriba o hacia abajo. El rango dependerá del valor 'y' del vértice (punto máximo o mínimo).</div>`;
+                            } else {
+                                 analysisOutputHTML += `<div class="explanation">El rango de una **función polinómica** de grado par tiene un límite superior o inferior. Para grados impares, el rango son todos los números reales.</div>`;
+                            }
+                            break;
+                        case "raiz_cuadrada":
+                            analysisOutputHTML += `<div class="explanation">El rango de una **función raíz cuadrada** básica ($\\sqrt{x}$) es $[0, \\infty)$, ya que la raíz cuadrada principal siempre devuelve un valor no negativo. Las transformaciones pueden cambiar este rango.</div>`;
+                            break;
+                        case "a_trozos":
+                            analysisOutputHTML += `<div class="explanation">Para una **función a trozos**, el rango es la **unión de los rangos** de cada trozo de la función sobre sus respectivos dominios.</div>`;
+                            break;
+                        default:
+                            analysisOutputHTML += `<div class="explanation">El rango de una función son todos los valores que $f(x)$ puede tomar (es decir, los valores de $y$). Se determina observando los valores que la función alcanza en el eje $y$.</div>`;
+                    }
+                }
+
+                if (order.includes("asíntotas") || order === "") {
+                    analysisOutputHTML += `<p><b>Asíntotas:</b></p>`;
+                    const asintotasV = new Set();
+                    const tol = 0.05; // Tolerancia para la detección de asintotas
+                    const stepSize = (endX - startX) / numPoints;
+
+                    for (let i = 1; i < ys.length; i++) {
+                        const xPrev = xs[i - 1];
+                        const yPrev = ys[i - 1];
+                        const xCurr = xs[i];
+                        const yCurr = ys[i];
+
+                        // Detección de asíntotas verticales por cambio de signo en y o salto abrupto
+                        if ((yPrev < -1e5 && yCurr > 1e5) || (yPrev > 1e5 && yCurr < -1e5) ||
+                            (isNaN(yPrev) && isFinite(yCurr)) || (isFinite(yPrev) && isNaN(yCurr)) ||
+                            (isFinite(yPrev) && isFinite(yCurr) && Math.abs(yCurr - yPrev) > 1000 * stepSize)
+                        ) {
+                            asintotasV.add(((xPrev + xCurr) / 2).toFixed(3));
+                        }
+                    }
+
+                    if (asintotasV.size > 0) {
+                        analysisOutputHTML += `<p><b>Asíntotas verticales aproximadas en $x \\approx$</b> ${Array.from(asintotasV).join(", ")}</p>`;
+                    } else {
+                        analysisOutputHTML += "<p>No se detectaron asíntotas verticales significativas en el intervalo.</p>";
+                    }
+
+                    // Detección de asíntotas horizontales
+                    const validYsAtEnds = ys.filter(y => !isNaN(y) && isFinite(y));
+                    let ahDetectada = false;
+
+                    if (validYsAtEnds.length > 0 && (endX - startX) > 50) { // Solo si el intervalo es amplio
+                        const firstValidY = validYs[0];
+                        const lastValidY = validYs[validYs.length - 1];
+
+                        if (Math.abs(firstValidY - lastValidY) < tol && Math.abs(firstValidY) < Math.max(Math.abs(minYGraph), Math.abs(maxYGraph)) * 0.1) {
+                            analysisOutputHTML += `<p><b>Asíntota horizontal aproximada:</b> $y = ${lastValidY.toFixed(3)}$</p>`;
+                            ahDetectada = true;
+                        }
+                    }
+                    if (!ahDetectada) {
+                        analysisOutputHTML += "<p>No se detectó asíntota horizontal clara en el intervalo.</p>";
+                    }
+                    analysisOutputHTML += `<div class="explanation">Una **asíntota vertical** ($x = c$) ocurre donde la función tiende a infinito (o menos infinito). Una **asíntota horizontal** ($y = L$) es una línea a la que la función se aproxima cuando $x$ tiende a $\\pm\\infty$.</div>`;
+                }
+
+                if (order.includes("tabla")) {
+                    let n = 5;
+                    const m = order.match(/\d+/);
+                    if (m) n = parseInt(m[0]);
+                    if (n < 2 || n > 100) {
+                        analysisOutputHTML += `<div class="message-box error"><i class="fas fa-exclamation-triangle"></i> El número de puntos para la tabla debe estar entre 2 y 100.</div>`;
+                    } else {
+                        analysisOutputHTML += `<p><b>Tabla de Valores (${n} puntos):</b></p>`;
+                        analysisOutputHTML += `<pre>x        f(x)\n--------------------\n`;
+                        const step = (endX - startX) / (n - 1);
+                        for (let i = 0; i < n; i++) {
+                            const xVal = startX + i * step;
+                            const yVal = f(xVal);
+                            analysisOutputHTML += `${xVal.toFixed(3).padEnd(8)} ${isFinite(yVal) ? yVal.toFixed(4) : "Indefinido"}\n`;
+                        }
+                        analysisOutputHTML += `</pre>`;
+                    }
+                }
+
+                if (order.includes("monotonía")) {
+                    let isGrowing = true;
+                    let isDecreasing = true;
+                    let lastValidY = NaN;
+                    const tolerance = 1e-3; // Pequeña tolerancia para la comparación
+
+                    for (let i = 0; i < ys.length; i++) {
+                        if (!isNaN(ys[i]) && isFinite(ys[i])) {
+                            if (!isNaN(lastValidY) && isFinite(lastValidY)) {
+                                if (ys[i] < lastValidY - tolerance) isGrowing = false;
+                                if (ys[i] > lastValidY + tolerance) isDecreasing = false;
+                            }
+                            lastValidY = ys[i];
+                        }
+                    }
+                    if (isGrowing && !isDecreasing) {
+                        analysisOutputHTML += `<p><b>Monotonía aproximada:</b> La función es mayormente **creciente** en el intervalo.</p>`;
+                    } else if (isDecreasing && !isGrowing) {
+                        analysisOutputHTML += `<p><b>Monotonía aproximada:</b> La función es mayormente **decreciente** en el intervalo.</p>`;
+                    } else if (isGrowing && isDecreasing) { // Si es constante
+                        analysisOutputHTML += `<p><b>Monotonía aproximada:</b> La función parece ser **constante** en el intervalo.</p>`;
+                    }
+                     else {
+                        analysisOutputHTML += `<p><b>Monotonía aproximada:</b> La función no es estrictamente creciente ni decreciente (puede tener subidas y bajadas) en el intervalo.</p>`;
+                    }
+                    analysisOutputHTML += `<div class="explanation">Una función es **creciente** si sus valores de $y$ aumentan a medida que $x$ aumenta. Es **decreciente** si sus valores de $y$ disminuyen.</div>`;
+                }
+
+                if (order.includes("simetría")) {
+                    let isEven = true; // Simetría par: f(x) = f(-x)
+                    let isOdd = true;  // Simetría impar: f(x) = -f(-x)
+                    const symmetryTol = 0.1; // Tolerancia para la simetría
+
+                    // Solo analizamos simetría si el intervalo es aproximadamente simétrico alrededor de 0
+                    if (Math.abs(startX + endX) < Math.abs(endX - startX) * 0.1) {
+                        const midPoint = (endX + startX) / 2;
+                        for (let i = 0; i < numPoints / 2; i++) {
+                            const x1 = xs[i];
+                            const y1 = ys[i];
+                            
+                            // Encontrar el punto simétrico
+                            const x2 = midPoint * 2 - x1; 
+                            
+                            // Evaluar f(x2)
+                            let y2 = f(x2);
+
+                            if (isNaN(y1) || isNaN(y2) || !isFinite(y1) || !isFinite(y2)) continue;
+
+                            // Comprobar simetría par: f(x) == f(-x)
+                            if (Math.abs(y1 - y2) > symmetryTol) {
+                                isEven = false;
+                            }
+                            // Comprobar simetría impar: f(x) == -f(-x)
+                            if (Math.abs(y1 - (-y2)) > symmetryTol) {
+                                isOdd = false;
+                            }
+                            if (!isEven && !isOdd) break;
+                        }
+                    } else {
+                        isEven = false; // No se puede determinar si el intervalo no es simétrico
+                        isOdd = false;
+                    }
+
+
+                    if (isEven) {
+                        analysisOutputHTML += `<p><b>Simetría aproximada:</b> La función parece ser **par** (simétrica con respecto al eje Y).</p>`;
+                        analysisOutputHTML += `<div class="explanation">Una función es **par** si $f(x) = f(-x)$. Su gráfica es simétrica con respecto al eje Y.</div>`;
+                    } else if (isOdd) {
+                        analysisOutputHTML += `<p><b>Simetría aproximada:</b> La función parece ser **impar** (simétrica con respecto al origen).</p>`;
+                        analysisOutputHTML += `<div class="explanation">Una función es **impar** si $f(x) = -f(-x)$. Su gráfica es simétrica con respecto al origen (0,0).</div>`;
+                    } else {
+                        analysisOutputHTML += `<p><b>Simetría aproximada:</b> La función no parece ser par ni impar en el intervalo. (Requiere un intervalo centrado en 0 para un análisis preciso).</p>`;
+                        analysisOutputHTML += `<div class="explanation">La simetría par significa $f(x) = f(-x)$ (eje Y). La simetría impar significa $f(x) = -f(-x)$ (origen).</div>`;
+                    }
+                }
+                
+                analysisText.innerHTML = analysisOutputHTML;
+            }
+
+            // Manejador de evento para el botón
+            analyzeButton.addEventListener('click', analyzeAndPlot);
+
+            // Inicializar con la gráfica de x^2 al cargar la página
+            analyzeAndPlot();
+
+            // Manejo del redimensionamiento del contenedor para la gráfica
+            let resizeTimeout;
+            const resizeObserver = new ResizeObserver(entries => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    for (let entry of entries) {
+                        const currentWidth = entry.contentRect.width;
+                        const previousWidth = graphContainer.dataset.lastWidth ? parseFloat(graphContainer.dataset.lastWidth) : 0;
+
+                        if (Math.abs(currentWidth - previousWidth) > 5) { // Un umbral de 5px para evitar redibujos menores
+                            analyzeAndPlot(); // Re-ejecutar el análisis para redibujar la gráfica
+                            graphContainer.dataset.lastWidth = currentWidth; // Guardar el nuevo ancho
+                        }
+                    }
+                }, 250); // Pequeño retraso para evitar redibujos excesivos
             });
-        }
 
+            resizeObserver.observe(graphContainer);
+        });
+    </script>
 
-        Plotly.newPlot("graph", plotData, plotLayout);
-
-        let resultadoHTML = "";
-        const tipoFuncion = getTipoFuncion(fInput);
-
-        // --- Manejo del Dominio y Rango por tipo de función ---
-        if (orden.includes("explica el dominio") || orden === "") {
-            resultadoHTML += `<p><b>Dominio:</b></p>`;
-            switch (tipoFuncion) {
-                case "racional":
-                    resultadoHTML += `<div class="explicacion">Para una **función racional** ($f(x) = P(x)/Q(x)$), el dominio incluye todos los números reales excepto aquellos valores de $x$ que hacen que el **denominador ($Q(x)$) sea cero**. Debes igualar el denominador a cero para encontrar las restricciones.</div>;
-                    break;  
-                case "polinomica":
-                    resultadoHTML += `<div class="explicacion">El dominio de cualquier **función polinómica** son **todos los números reales** $(-\\infty, \\infty)$, ya que no hay valores de $x$ que causen indefiniciones (como divisiones por cero o raíces de números negativos).</div>`;
-                    break;
-                case "raiz_cuadrada":
-                    resultadoHTML += `<div class="explicacion">Para una **función raíz cuadrada** ($f(x) = \\sqrt{g(x)}$), el dominio está definido por la condición de que la expresión bajo la raíz (el radicando $g(x)$) no puede ser negativa. Por lo tanto, debes establecer $g(x) \\ge 0$ y resolver la desigualdad.</div>`;
-                    break;
-                case "a_trozos":
-                    resultadoHTML += `<div class="explicacion">Para una **función a trozos**, el dominio se define por las **condiciones especificadas para cada trozo**. La unión de los intervalos donde cada trozo está definido forma el dominio total de la función.</div>`;
-                    break;
-                default:
-                    resultadoHTML += `<div class="explicacion">El dominio de una función son todos los valores de $x$ para los cuales la función está definida. Generalmente, buscamos evitar divisiones por cero, raíces pares de números negativos o argumentos no válidos en logaritmos.</div>`;
-            }
-            // Agrega el dominio aproximado calculado de la gráfica
-            const puntosValidos = ys.filter(y => !isNaN(y)).length;
-            if (puntosValidos > 0) {
-                const firstValidX = xs[ys.findIndex(y => !isNaN(y))];
-                const lastValidX = xs[ys.length - 1 - [...ys].reverse().findIndex(y => !isNaN(y))];
-                resultadoHTML += `<p><b>Dominio aproximado en el intervalo [${originalStartX}, ${originalEndX}]:</b> $[${firstValidX.toFixed(3)}, ${lastValidX.toFixed(3)}]$ (extendido a [${startX.toFixed(3)}, ${endX.toFixed(3)}])</p>`;
-            } else {
-                resultadoHTML += `<p>La función no está definida en el intervalo de $x$ dado.</p>`;
-            }
-        }
-
-        if (orden.includes("explica el rango") || orden === "") {
-            resultadoHTML += `<p><b>Rango:</b></p>`;
-            switch (tipoFuncion) {
-                case "racional":
-                    resultadoHTML += `<div class="explicacion">El rango de una **función racional** puede ser más complejo y a menudo implica analizar las asíntotas horizontales o el comportamiento de la función cuando $x$ se acerca a infinito. El rango generalmente excluye el valor de la asíntota horizontal (si existe).</div>`;
-                    break;
-                case "polinomica":
-                    const degreeMatch = fInput.match(/x\^(\d+)/);
-                    let degree = 0;
-                    if (degreeMatch) {
-                        degree = parseInt(degreeMatch[1]);
-                    } else if (fInput.includes('x')) { // Asumir grado 1 si solo tiene x
-                        degree = 1;
-                    }
-                    if (degree % 2 !== 0 && degree !== 0) { // Grado impar
-                        resultadoHTML += `<div class="explicacion">Si el grado de una **función polinómica** es **impar**, su rango son **todos los números reales** $(-\\infty, \\infty)$, ya que la función se extiende indefinidamente hacia arriba y hacia abajo.</div>`;
-                    } else if (degree % 2 === 0 && degree !== 0) { // Grado par
-                        resultadoHTML += `<div class="explicacion">Si el grado de una **función polinómica** es **par**, su rango tiene un límite inferior o superior, dependiendo si la gráfica se abre hacia arriba o hacia abajo. El rango dependerá del valor 'y' del vértice (punto máximo o mínimo).</div>`;
-                    } else { // Grado 0 (constante) o desconocido
-                           resultadoHTML += `<div class="explicacion">El rango de una **función polinómica** de grado par tiene un límite superior o inferior, ya que la gráfica es una parábola (o similar) que se abre hacia arriba o hacia abajo. El rango dependerá del **vértice** (punto máximo o mínimo) de la función. Para grados impares, el rango son todos los números reales.</div>`;
-                    }
-                    break;
-                case "raiz_cuadrada":
-                    resultadoHTML += `<div class="explicacion">El rango de una **función raíz cuadrada** básica ($\\sqrt{x}$) es $[0, \\infty)$, ya que la raíz cuadrada principal siempre devuelve un valor no negativo. Las transformaciones (multiplicar por negativo, sumar/restar una constante) pueden cambiar este rango.</div>`;
-                    break;
-                case "a_trozos":
-                    resultadoHTML += `<div class="explicacion">Para una **función a trozos**, el rango es la **unión de los rangos** de cada trozo de la función sobre sus respectivos dominios.</div>`;
-                    break;
-                default:
-                    resultadoHTML += `<div class="explicacion">El rango de una función son todos los valores que $f(x)$ puede tomar (es decir, los valores de $y$). Se determina observando los valores que la función alcanza en el eje $y$.</div>`;
-            }
-            // Agrega el rango aproximado calculado de la gráfica
-            if (validYs.length > 0) {
-                resultadoHTML += `<p><b>Rango aproximado en el intervalo [${originalStartX}, ${originalEndX}]:</b> $[${minYVal.toFixed(3)}, ${maxYVal.toFixed(3)}]$</p>`;
-            } else {
-                resultadoHTML += `<p>No se pudo determinar el rango en el intervalo.</p>`;
-            }
-        }
-
-        // Análisis de Asíntotas
-        if (orden.includes("explica asintotas") || orden === "") {
-            resultadoHTML += `<p><b>Asíntotas:</b></p>`;
-            const asintotasV = new Set();
-            for (let i = 1; i < ys.length; i++) {
-                const xPrev = xs[i - 1];
-                const yPrev = ys[i - 1];
-                const xCurr = xs[i];
-                const yCurr = ys[i];
-
-                // Detecta salto de NaN a número o viceversa
-                if ((isNaN(yPrev) && !isNaN(yCurr) && isFinite(yCurr)) || (!isNaN(yPrev) && isFinite(yPrev) && isNaN(yCurr))) {
-                    asintotasV.add(((xPrev + xCurr) / 2).toFixed(3));
-                }
-                // Detecta cambios muy abruptos (posible asíntota vertical)
-                else if (isFinite(yPrev) && isFinite(yCurr) && Math.abs(yCurr - yPrev) > 1000 * ((endX - startX) / pasos)) {
-                    asintotasV.add(((xPrev + xCurr) / 2).toFixed(3));
-                }
-            }
-            if (asintotasV.size > 0) {
-                resultadoHTML += `<p><b>Asíntotas verticales aproximadas en $x \\approx$</b> ${Array.from(asintotasV).join(", ")}</p>`;
-            } else {
-                resultadoHTML += "<p>No se detectaron asíntotas verticales significativas en el intervalo.</p>";
-            }
-
-            const tol = 0.05;
-            let ahDetectada = false;
-
-            if (validYs.length > 0) {
-                const firstValidY = validYs[0];
-                const lastValidY = validYs[validYs.length - 1];
-
-                // Comprobar asíntota horizontal si los extremos se estabilizan
-                if (Math.abs(firstValidY - lastValidY) < tol) {
-                    resultadoHTML += `<p><b>Asíntota horizontal aproximada:</b> $y = ${lastValidY.toFixed(3)}$</p>`;
-                    ahDetectada = true;
-                }
-            }
-
-            if (!ahDetectada) {
-                resultadoHTML += "<p>No se detectó asíntota horizontal clara en el intervalo.</p>";
-            }
-            resultadoHTML += `<div class="explicacion">Una **asíntota vertical** ($x = c$) ocurre donde la función tiende a infinito (o menos infinito) al acercarse a $c$. Una **asíntota horizontal** ($y = L$) es una línea a la que la función se aproxima cuando $x$ tiende a $\\pm\\infty$.</div>`;
-        }
-
-        // Tabla de Valores
-        if (orden.includes("muestra la tabla de valores")) {
-            let n = 5;
-            const m = orden.match(/\d+/);
-            if (m) n = parseInt(m[0]);
-            if (n < 2 || n > 100) {
-                resultadosDiv.innerHTML = `<div class="error-message"><i class="fas fa-exclamation-triangle"></i> El número de puntos para la tabla debe estar entre 2 y 100.</div>`;
-                loader.style.display = 'none';
-                return;
-            }
-
-            let tablaHTML = `<table><thead><tr><th>$x$</th><th>$f(x)$</th></tr></thead><tbody>`;
-            const step = (endX - startX) / (n - 1);
-            for (let i = 0; i < n; i++) {
-                const xVal = startX + i * step;
-                const yVal = f(xVal);
-                tablaHTML += `<tr><td>${xVal.toFixed(4)}</td><td>${isFinite(yVal) ? yVal.toFixed(4) : 'Indefinido'}</td></tr>`;
-            }
-            tablaHTML += `</tbody></table>`;
-            tablaValoresDiv.innerHTML = `<h3>Tabla de Valores (${n} puntos)</h3>${tablaHTML}`;
-            tablaValoresDiv.style.display = 'block';
-        } else {
-            tablaValoresDiv.style.display = 'none'; // Oculta la tabla si no se solicita
-        }
-
-        // Monotonía (muy simplificado, solo para mostrar la estructura)
-        if (orden.includes("explica monotonía")) {
-            resultadoHTML += `<p><b>Monotonía (Crecimiento/Decrecimiento):</b></p>`;
-            resultadoHTML += `<div class="explicacion">Analizar la monotonía implica determinar los intervalos donde la función es creciente (sus valores aumentan) o decreciente (sus valores disminuyen). Esto generalmente se hace estudiando el signo de la primera derivada de la función. Este analizador ofrece una explicación conceptual y no un cálculo exacto.</div>`;
-        }
-
-        // Simetría (muy simplificado)
-        if (orden.includes("explica simetría")) {
-            resultadoHTML += `<p><b>Simetría:</b></p>`;
-            resultadoHTML += `<div class="explicacion">La simetría de una función puede ser **par** (si $f(-x) = f(x)$, simétrica respecto al eje Y) o **impar** (si $f(-x) = -f(x)$, simétrica respecto al origen). Este analizador ofrece una explicación conceptual.</div>`;
-        }
-        
-        resultadosDiv.innerHTML = `<h3>Resultados del Análisis</h3>${resultadoHTML}`;
-        loader.style.display = 'none';
-    }
-
-    // Helper para convertir variables CSS a RGB para Plotly
-    function var_to_rgb(cssVar) {
-        const style = getComputedStyle(document.body);
-        const color = style.getPropertyValue(cssVar).trim();
-        // Si el color es un código hexadecimal, lo convierte a rgb
-        if (color.startsWith('#')) {
-            let r = parseInt(color.substring(1, 3), 16);
-            let g = parseInt(color.substring(3, 5), 16);
-            let b = parseInt(color.substring(5, 7), 16);
-            return `rgb(${r}, ${g}, ${b})`;
-        }
-        return color; // Si ya es rgb o un nombre de color válido para Plotly
-    }
-
-    // Funcionalidad del pop-up de órdenes
-    function togglePopup(event) {
-        event.stopPropagation(); // Evita que el clic se propague al documento
-        const popup = document.getElementById('orden-popup');
-        popup.classList.toggle('show');
-    }
-
-    // Cerrar el pop-up si se hace clic fuera
-    document.addEventListener('click', function(event) {
-        const popup = document.getElementById('orden-popup');
-        const popupButton = document.querySelector('.popup-button');
-        if (popup && popupButton && !popup.contains(event.target) && !popupButton.contains(event.target)) {
-            popup.classList.remove('show');
-        }
-    });
-
-    // Iniciar un análisis básico al cargar la página
-    document.addEventListener('DOMContentLoaded', analizar);
-</script>
 </body>
 </html>
